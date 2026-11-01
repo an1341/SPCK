@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechMart - Cửa Hàng Công Nghệ Hàng Đầu</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 flex flex-col min-h-screen">
+
+  <header class="bg-red-600 text-white sticky top-0 z-50 shadow-md">
+
+    <div class="bg-red-700 text-xs py-1 text-center font-medium">
+      🔥 Siêu Sale 10.10 - Giảm đến 50% tất cả sản phẩm TechMart
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <a href="#" onclick="showPage('home')" class="flex items-center gap-2 text-2xl font-bold tracking-tight">
+        <i class="fa-solid fa-mobile-screen-button text-yellow-300"></i>
+        <span>Tech<span class="text-yellow-300">Mart</span></span>
+      </a>
+
+      <div class="flex-1 max-w-xl relative hidden md:block">
+        <input id="searchInput" type="text" oninput="handleSearch()" placeholder="Bạn cần tìm gì? (VD: iPhone 15, Laptop...)" 
+               class="w-full py-2 pl-4 pr-10 rounded-lg text-gray-900 text-sm focus:outline-none shadow-inner" />
+        <button class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-600 px-2">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-4 text-sm">
+        <button onclick="showPage('support')" class="hover:bg-red-700 px-3 py-2 rounded-lg transition flex items-center gap-1 hidden sm:flex">
+          <i class="fa-solid fa-headset text-lg"></i>
+          <span>Hỗ trợ</span>
+        </button>
+
+        <button onclick="toggleCartModal()" class="relative flex items-center gap-2 hover:bg-red-700 px-3 py-2 rounded-lg transition">
+          <i class="fa-solid fa-cart-shopping text-xl"></i>
+          <span class="hidden sm:inline">Giỏ hàng</span>
+          <span id="cartBadge" class="absolute -top-1 -right-1 bg-yellow-400 text-red-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+
+        <div id="userSection" class="flex items-center gap-2">
+        </div>
+      </div>
+    </div>
+
+    <nav class="bg-red-700 border-t border-red-500 text-sm">
+      <div class="max-w-7xl mx-auto px-4 flex items-center gap-6 overflow-x-auto py-2">
+        <button onclick="filterCategory('All')" class="hover:text-yellow-300 font-medium flex items-center gap-1 whitespace-nowrap">
+          <i class="fa-solid fa-list"></i> Tất cả danh mục
+        </button>
+        <button onclick="filterCategory('Điện thoại')" class="hover:text-yellow-300 whitespace-nowrap">📱 Điện thoại</button>
+        <button onclick="filterCategory('Laptop')" class="hover:text-yellow-300 whitespace-nowrap">💻 Laptop</button>
+        <button onclick="filterCategory('Máy tính bảng')" class="hover:text-yellow-300 whitespace-nowrap">📱 Tablet</button>
+        <button onclick="filterCategory('Phụ kiện')" class="hover:text-yellow-300 whitespace-nowrap">🎧 Phụ kiện</button>
+        <button onclick="filterCategory('Đồng hồ')" class="hover:text-yellow-300 whitespace-nowrap">⌚ Đồng hồ</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
+
+    <section id="homePage" class="space-y-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="md:col-span-2 bg-gradient-to-r from-red-600 to-orange-500 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[220px] shadow-lg">
+          <div>
+            <span class="bg-yellow-400 text-red-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Flash Sale Đỉnh Cao</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold mt-2">iPhone 15 Pro Max</h2>
+            <p class="mt-1 text-red-100">Khung Titanium - Camera Zoom 5x - Chip A17 Pro</p>
+          </div>
+          <div class="mt-4 flex items-center gap-4">
+            <span class="text-2xl font-bold text-yellow-300">29.990.000đ</span>
+            <button onclick="viewDetail(1)" class="bg-white text-red-600 px-5 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 hover:text-red-900 transition shadow">
+              Xem Chi Tiết
+            </button>
+          </div>
+        </div>
+
+        <div class="hidden md:flex flex-col gap-4">
+          <div class="bg-blue-600 rounded-2xl p-4 text-white flex-1 shadow flex justify-between items-center">
+            <div>
+              <h3 class="font-bold">MacBook Air M3</h3>
+              <p class="text-xs text-blue-100">Ưu đãi giảm thêm 2.000.000đ</p>
+            </div>
+            <i class="fa-solid fa-laptop text-3xl text-blue-300"></i>
+          </div>
+          <div class="bg-purple-600 rounded-2xl p-4 text-white flex-1 shadow flex justify-between items-center">
+            <div>
+              <h3 class="font-bold">AirPods Pro 2</h3>
+              <p class="text-xs text-purple-100">Chống ồn chủ động đỉnh cao</p>
+            </div>
+            <i class="fa-solid fa-headphones text-3xl text-purple-300"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4">
+        <h2 id="categoryTitle" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+          <i class="fa-solid fa-fire text-red-600"></i> Sản Phẩm Nổi Bật
+        </h2>
+        <div class="flex items-center gap-2 text-sm">
+          <span class="text-gray-500">Sắp xếp:</span>
+          <select id="sortSelect" onchange="handleSort()" class="bg-white border rounded-lg px-3 py-1.5 focus:outline-none">
+            <option value="default">Mặc định</option>
+            <option value="price-asc">Giá: Thấp đến Cao</option>
+            <option value="price-desc">Giá: Cao đến Thấp</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      </div>
+    </section>
+
+    <section id="detailPage" class="hidden bg-white rounded-2xl p-6 shadow-sm border">
+      <button onclick="showPage('home')" class="mb-6 text-red-600 font-medium hover:underline flex items-center gap-2 text-sm">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+      </button>
+      <div id="detailContent" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      </div>
+    </section>
+
+    <section id="authPage" class="hidden max-w-md mx-auto bg-white p-8 rounded-2xl shadow-md border my-8">
+      <div class="flex border-b mb-6">
+        <button id="loginTabBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 font-bold text-center text-red-600 border-b-2 border-red-600">
+          Đăng Nhập
+        </button>
+        <button id="registerTabBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 font-bold text-center text-gray-400 border-b-2 border-transparent">
+          Đăng Ký
+        </button>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập / Email</label>
+          <input type="text" id="loginUsername" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Tên đăng nhập (VD: admin)">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+          <input type="password" id="loginPassword" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full bg-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-red-700 transition">
+          Đăng Nhập
+        </button>
+        <div class="bg-gray-50 p-3 rounded-lg border text-xs text-gray-600 mt-4">
+          💡 <b>Mẹo thử nhanh:</b> Tên: <code class="bg-gray-200 px-1 rounded text-red-600">admin</code> | Mật khẩu: <code class="bg-gray-200 px-1 rounded text-red-600">123456</code>
+        </div>
+      </form>
+
+      <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
+          <input type="text" id="regFullName" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Nguyễn Văn A">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập</label>
+          <input type="text" id="regUsername" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="user123">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+          <input type="password" id="regPassword" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full bg-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-red-700 transition">
+          Tạo Tài Khoản Mới
+        </button>
+      </form>
+    </section>
+
+    <section id="supportPage" class="hidden max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-sm border space-y-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Trung Tâm Hỗ Trợ Khách Hàng</h2>
+        <p class="text-gray-500 text-sm">Chúng tôi sẵn sàng giải đáp mọi thắc mắc của bạn 24/7. Hãy liên hệ với TechMart ngay!</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-5 border rounded-xl bg-gray-50 text-center space-y-2">
+          <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto text-xl">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <h3 class="font-bold">Tổng đài CSKH</h3>
+          <p class="text-xs text-gray-500">1800.2097 (Miễn phí 8h00 - 21h30)</p>
+        </div>
+        <div class="p-5 border rounded-xl bg-gray-50 text-center space-y-2">
+          <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="font-bold">Trung tâm Bảo hành</h3>
+          <p class="text-xs text-gray-500">Hơn 100 chuỗi bảo hành toàn quốc</p>
+        </div>
+        <div class="p-5 border rounded-xl bg-gray-50 text-center space-y-2">
+          <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-xl">
+            <i class="fa-solid fa-truck-fast"></i>
+          </div>
+          <h3 class="font-bold">Tra cứu đơn hàng</h3>
+          <p class="text-xs text-gray-500">Kiểm tra lộ trình giao hàng trực tuyến</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleSupportSubmit(event)" class="space-y-4 border-t pt-6">
+        <h3 class="font-bold text-lg text-gray-800">Gửi phản hồi cho chúng tôi</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" placeholder="Họ và tên của bạn" required class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+          <input type="email" placeholder="Địa chỉ Email" required class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+        </div>
+        <textarea rows="4" placeholder="Nội dung bạn cần trợ giúp..." required class="w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+        <button type="submit" class="bg-red-600 text-white font-bold px-6 py-2.5 rounded-lg hover:bg-red-700 transition">
+          Gửi Yêu Cầu Hỗ Trợ
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <div id="cartModal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-end">
+    <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl">
+      <div class="p-4 bg-red-600 text-white flex justify-between items-center">
+        <h3 class="font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-cart-shopping"></i> Giỏ Hàng Của Bạn
+        </h3>
+        <button onclick="toggleCartModal()" class="text-white hover:text-yellow-300 text-xl font-bold">&times;</button>
+      </div>
+
+      <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-4">
+      </div>
+
+      <div class="p-4 border-t bg-gray-50 space-y-3">
+        <div class="flex justify-between font-bold text-lg">
+          <span>Tổng thành tiền:</span>
+          <span id="cartTotalPrice" class="text-red-600">0đ</span>
+        </div>
+        <button onclick="checkout()" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition">
+          Tiến Hành Thanh Toán
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="bg-gray-900 text-gray-300 text-sm mt-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-mobile-screen-button text-red-500"></i> TechMart Vietnam
+        </h4>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Hệ thống bán lẻ điện thoại, laptop, máy tính bảng và phụ kiện chính hãng giá rẻ hàng đầu Việt Nam.
+        </p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-base mb-3">Tổng đài hỗ trợ miễn phí</h4>
+        <ul class="space-y-1.5 text-xs">
+          <li>Tư vấn mua hàng: <strong class="text-white">1800.2097</strong></li>
+          <li>Khiếu nại dịch vụ: <strong class="text-white">1800.2063</strong></li>
+          <li>Trung tâm bảo hành: <strong class="text-white">1800.2064</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-base mb-3">Chính sách chung</h4>
+        <ul class="space-y-1.5 text-xs text-gray-400">
+          <li><a href="#" class="hover:text-white">Chính sách bảo hành sản phẩm</a></li>
+          <li><a href="#" class="hover:text-white">Chính sách đổi trả 1 đổi 1</a></li>
+          <li><a href="#" class="hover:text-white">Chính sách giao hàng tận nhà</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-base mb-3">Thanh toán & Đăng ký</h4>
+        <div class="flex gap-3 text-xl mb-3">
+          <i class="fa-brands fa-cc-visa text-blue-400"></i>
+          <i class="fa-brands fa-cc-mastercard text-red-400"></i>
+          <i class="fa-solid fa-qrcode text-green-400"></i>
+        </div>
+        <p class="text-xs text-gray-400">Chấp nhận thanh toán qua Visa, Mastercard, QR Code.</p>
+      </div>
+    </div>
+    <div class="bg-gray-950 py-4 text-center text-xs text-gray-500 border-t border-gray-800">
+      © 2026 TechMart E-Commerce Project.
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="auth.js"></script>
+  <script src="cart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
